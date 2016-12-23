@@ -3,6 +3,7 @@ package main
 import (
 	"donn/config"
 	"donn/middleware"
+	"donn/resource/article"
 	"donn/resource/review"
 	"donn/resource/user"
 	"gopkg.in/gin-gonic/gin.v1"
@@ -22,6 +23,20 @@ func main() {
 	// CORS middleware
 	router.Use(middleware.CORSMiddleware())
 
+	v0 := router.Group("/v0")
+	{
+		v0Article := v0.Group("/article")
+		{
+			v0Article.GET("", article.Index)
+			v0Article.GET("/", article.Index)
+			v0Article.GET("/:id", article.Show)
+			v0Article.POST("", article.Create)
+			v0Article.POST("/", article.Create)
+			v0Article.PUT("/:id", article.Update)
+			v0Article.PATCH("/:id", article.Patch)
+			v0Article.DELETE("/:id", article.Delete)
+		}
+	}
 	v1 := router.Group("/v1")
 	{
 
